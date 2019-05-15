@@ -47,7 +47,7 @@
   template:
     src: supervisor.group.ini.j2
     dest: /etc/supervisord.d/group_{{ item.groupname }}.ini
-  loop: "{{ supervisord_groups }}"
+  loop: "{{ supervisor_groups }}"
   when:
     - supervisor_groups is defined and supervisor_groups|length > 0
     - item.state|default('present') != 'absent'
