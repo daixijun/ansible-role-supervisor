@@ -1,0 +1,11 @@
+---
+- name: supervisord update
+  command: supervisorctl update
+  args:
+    warn: no
+
+- name: supervisord restarted
+  systemd:
+    name: supervisord
+    state: restarted
+    enabled: yes

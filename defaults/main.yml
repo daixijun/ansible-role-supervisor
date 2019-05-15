@@ -1,0 +1,27 @@
+---
+supervisor_username: admin
+supervisor_password: ""
+supervisor_unix_http_server_socket_path: /var/run/supervisord.sock
+supervisor_inet_http_server_port: 0.0.0.0:9001
+supervisor_log_dir: /var/log/supervisord/
+supervisor_monitors: []
+# - programname: xxx
+#   command: xxx
+#   numprocs: 1
+#   directory: /path/to/project/directory
+#   user: root
+supervisor_programs: []
+# - programname: xxx
+#   command: xxx
+#   numprocs: 1
+#   directory: /path/to/project/directory
+#   user: root
+#   autorestart: unexpected
+#   stopsignal: TERM
+#   stdout_log: '/var/log/supervisord/%(program_name)s.stdout.log'
+#   stderr_log: '/var/log/supervisord/%(program_name)s.stderr.log'
+#   environment: ''
+supervisor_groups: []
+# - groupname: xxx
+#   programs: []
+#   priority: 999

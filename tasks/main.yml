@@ -1,0 +1,100 @@
+---
+- name: Ensure python-pip installed
+  yum:
+    name: python-pip
+    state: present
+
+- name: Ensure supervisor installed
+  pip:
+    name:
+      - requests
+      - supervisor
+    state: present
+
+- name: Upload dingtalk script crashdingtalk to remote
+  template:
+    src: crashdingtalk.py.j2
+    dest: /usr/local/bin/crashdingtalk
+    mode: 0755
+
+- name: Ensure configuration and log paths are present
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - /etc/supervisord.d
+    - /var/log/supervisord
+
+- name: Ensure supervisor configuration is present
+  template:
+    src: supervisord.conf.j2
+    dest: /etc/supervisord.conf
+  notify:
+    - supervisord restarted
+
+- name: Ensure supervisor program configs are present
+  template:
+    src: supervisor.program.ini.j2
+    dest: /etc/supervisord.d/{{ item.programname }}.ini
+  loop: "{{ supervisor_programs }}"
+  when:
+    - supervisor_programs is defined and supervisor_programs|length > 0
+    - item.state|default('present') != 'absent'
+  notify:
+    - supervisord update
+
+- name: Ensure supervisor group configs are present
+  template:
+    src: supervisor.group.ini.j2
+    dest: /etc/supervisord.d/group_{{ item.groupname }}.ini
+  loop: "{{ supervisord_groups }}"
+  when:
+    - supervisor_groups is defined and supervisor_groups|length > 0
+    - item.state|default('present') != 'absent'
+  notify:
+    - supervisord update
+
+- name: Ensure supervisor eveltlistener configs are present
+  template:
+    src: eventlistener.ini.j2
+    dest: /etc/supervisord.d/{{ item.programname }}.ini
+  loop: "{{ supervisor_monitors }}"
+  when: supervisor_monitors is defined and supervisor_monitors|length > 0
+  notify:
+    - supervisord update
+
+- name: Ensure program {{ item.programname }} is absent
+  file:
+    path: /etc/supervisord.d/{{ item.programname }}.ini
+    state: absent
+  with_items: "{{ supervisor_programs }}"
+  when:
+    - supervisor_programs is defined and supervisor_programs|length > 0
+    - item.state|default('present') == 'absent'
+  notify:
+    - supervisord update
+
+- name: Ensure group {{ item.groupname }} is absent
+  file:
+    path: /etc/supervisord.d/group_{{ item.groupname }}.ini
+    state: absent
+  with_items: "{{ supervisor_groups }}"
+  when:
+    - supervisor_groups is defined and supervisor_groups|length > 0
+    - item.state|default('present') == 'absent'
+  notify:
+    - supervisord update
+
+- name: Startup
+  template:
+    src: supervisord.service.j2
+    dest: /etc/systemd/system/supervisord.service
+  when: ansible_service_mgr == 'systemd'
+
+- name: Ensure supervisor is started
+  systemd:
+    name: supervisord
+    state: started
+    enabled: yes
+    daemon_reload: true
+  when: ansible_service_mgr == 'systemd'

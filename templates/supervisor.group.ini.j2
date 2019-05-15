@@ -1,0 +1,3 @@
+[group:{{ item.groupname }}]
+programs={{ item.programs | join(',') }}
+priority={{ item.priority | default(999) }}
