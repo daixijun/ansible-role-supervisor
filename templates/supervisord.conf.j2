@@ -27,8 +27,8 @@ logfile_backups=10           ; (num of main logfile rotation backups;default 10)
 loglevel=info                ; (log level;default info; others: debug,warn,trace)
 pidfile=/var/run/supervisord.pid ; (supervisord pidfile;default supervisord.pid)
 nodaemon=false               ; (start in foreground if true;default false)
-minfds=1024                  ; (min. avail startup file descriptors;default 1024)
-minprocs=200                 ; (min. avail process descriptors;default 200)
+minfds={{ supervisor_minfds }}                  ; (min. avail startup file descriptors;default 1024)
+minprocs={{ supervisor_minprocs }}                 ; (min. avail process descriptors;default 200)
 
 
 [rpcinterface:supervisor]

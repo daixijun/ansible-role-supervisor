@@ -4,6 +4,8 @@ supervisor_password: ""
 supervisor_unix_http_server_socket_path: /var/run/supervisord.sock
 supervisor_inet_http_server_port: 0.0.0.0:9001
 supervisor_log_dir: /var/log/supervisord/
+supervisor_minfds: 8192
+supervisor_minprocs: 200
 supervisor_monitors: []
 # - programname: xxx
 #   command: xxx
