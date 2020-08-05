@@ -1,0 +1,8 @@
+---
+- name: Converge
+  hosts: all
+  roles:
+    - role: daixijun.supervisor
+      supervisor_programs:
+        - programname: cat
+          command: /bin/cat

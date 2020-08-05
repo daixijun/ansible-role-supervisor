@@ -12,11 +12,14 @@ before_script:
   - cd daixijun.supervisor
 
 install:
-  - pip install ansible molecule docker
+  - pip install ansible 'molecule[docker,lint]'
 
 script:
+  - python --version
+  - molecule --version
   - molecule test
 
 notifications:
+  email: false
   webhooks:
     - https://galaxy.ansible.com/api/v1/notifications/

@@ -9,3 +9,10 @@
     name: supervisord
     state: restarted
     enabled: yes
+
+- name: restart eventlistener
+  supervisorctl:
+    name: eventlistener
+    state: restarted
+  when:
+    - supervisor_eventlistener|length > 0

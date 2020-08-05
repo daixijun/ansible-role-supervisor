@@ -6,6 +6,23 @@ supervisor_inet_http_server_port: 0.0.0.0:9001
 supervisor_log_dir: /var/log/supervisord/
 supervisor_minfds: 8192
 supervisor_minprocs: 200
+supervisor_eventlistener:
+  {}
+  # channels:
+  #   default:
+  #     provider: wechat
+  #     wechat:
+  #       token:
+  #   other:
+  #     provider: webhook
+  #     webhook:
+  #       url:
+  #       method:
+  #       token:
+  # rules:
+  #   groupname:
+  #     - default
+
 supervisor_monitors: []
 # - programname: xxx
 #   command: xxx
@@ -20,9 +37,9 @@ supervisor_programs: []
 #   user: root
 #   autorestart: unexpected
 #   stopsignal: TERM
-#   stdout_log: '/var/log/supervisord/%(program_name)s.stdout.log'
-#   stderr_log: '/var/log/supervisord/%(program_name)s.stderr.log'
 #   environment: ''
+#   stderr_events_enabled: false
+#   stdout_events_enabled: false
 supervisor_groups: []
 # - groupname: xxx
 #   programs: []
