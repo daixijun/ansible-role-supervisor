@@ -24,6 +24,8 @@
     - name: Get process cat state
       command: supervisorctl status cat
       register: __process_cat_status
+      tags:
+        - skip_ansible_lint
 
     - name: Asset that process cat is running
       assert:
